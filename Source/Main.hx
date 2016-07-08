@@ -25,6 +25,9 @@ class Main extends Sprite {
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, slide.onMouseMove);
 
 		stage.addEventListener(KeyboardEvent.KEY_UP, slide.onKeyUp);
+
+		var fps_mem:FPS_Mem = new FPS_Mem(10, 10, 0xffffff);
+		addChild(fps_mem);
 		
 	}
 
