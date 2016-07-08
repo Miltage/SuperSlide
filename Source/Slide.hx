@@ -56,7 +56,7 @@ class Slide extends Sprite {
     //edge.createFixture(fixture);
 
     for (i in 0...10)
-    createBody(240+i*40, 100, 20, 20);
+    createBody(240+i*40, 100, 10, 20);
   }
 
   public function update():Void
@@ -89,13 +89,13 @@ class Slide extends Sprite {
     bodyDef.position.set (x / Slide.worldScale, y / Slide.worldScale);
     bodyDef.type = DYNAMIC_BODY;
 
-    var shape = new B2PolygonShape();
-    shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
+    var shape = new B2CircleShape(width / Slide.worldScale);
+    //shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
-    fixture.density = 2;
+    fixture.density = 4;
     fixture.restitution = 0.2;
-    fixture.friction = 0.5;
+    fixture.friction = 0;
 
     var body = world.createBody (bodyDef);
     body.createFixture (fixture);
