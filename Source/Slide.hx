@@ -67,9 +67,19 @@ class Slide extends Sprite {
     world.drawDebugData();
   }
 
-  private function drawSlide(m:MouseEvent):Void
+  private function drawSlide(p0:Point, p1:Point):Void
   {
+    // Create edge
+    var bodyDef = new B2BodyDef();
+    bodyDef.type = STATIC_BODY;
 
+    var shape = new B2PolygonShape();
+    shape.setAsEdge(new B2Vec2(p0.x / Slide.worldScale, p0.y / Slide.worldScale), new B2Vec2(p1.x / Slide.worldScale, p1.y / Slide.worldScale));
+    var fixture = new B2FixtureDef();
+    fixture.shape = shape;
+
+    var edge = world.createBody(bodyDef);
+    edge.createFixture(fixture);
   }
 
   private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
@@ -114,17 +124,7 @@ class Slide extends Sprite {
       var currentPos = new Point(m.localX, m.localY);
       if (Point.distance(currentPos, lastPos) > 25)
       {
-        // Create edge
-        var bodyDef = new B2BodyDef();
-        bodyDef.type = STATIC_BODY;
-
-        var shape = new B2PolygonShape();
-        shape.setAsEdge(new B2Vec2(lastPos.x / Slide.worldScale, lastPos.y / Slide.worldScale), new B2Vec2(currentPos.x / Slide.worldScale, currentPos.y / Slide.worldScale));
-        var fixture = new B2FixtureDef();
-        fixture.shape = shape;
-
-        var edge = world.createBody(bodyDef);
-        edge.createFixture(fixture);
+        drawSlide(lastPos, currentPos);
         lastPos = currentPos;
       }
     }
