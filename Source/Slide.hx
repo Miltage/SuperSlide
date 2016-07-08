@@ -74,7 +74,7 @@ class Slide extends Sprite {
     bodyDef.type = STATIC_BODY;
 
     var shape = new B2PolygonShape();
-    shape.setAsEdge(new B2Vec2(p0.x / Slide.worldScale, p0.y / Slide.worldScale), new B2Vec2(p1.x / Slide.worldScale, p1.y / Slide.worldScale));
+    shape.setAsEdge(new B2Vec2((p0.x - x) / Slide.worldScale, (p0.y - y) / Slide.worldScale), new B2Vec2((p1.x - x) / Slide.worldScale, (p1.y - y) / Slide.worldScale));
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
 
@@ -119,7 +119,14 @@ class Slide extends Sprite {
 
   public function onMouseMove(m:MouseEvent):Void
   {
-    if (mouseDown)
+    if (mouseDown && m.altKey)
+    {
+      var currentPos = new Point(m.localX, m.localY);
+      this.x += currentPos.x - lastPos.x;
+      this.y += currentPos.y - lastPos.y;
+      lastPos = currentPos;
+    }
+    else if (mouseDown)
     {
       var currentPos = new Point(m.localX, m.localY);
       if (Point.distance(currentPos, lastPos) > 25)
@@ -132,6 +139,7 @@ class Slide extends Sprite {
 
   public function onKeyUp(k:KeyboardEvent):Void
   {
+    
     switch(k.keyCode)
     {
       case 32: // SPACE 
