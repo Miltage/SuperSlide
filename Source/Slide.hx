@@ -5,6 +5,7 @@ import openfl.Lib;
 import openfl.events.MouseEvent;
 import openfl.events.KeyboardEvent;
 import openfl.geom.Point;
+import openfl.Vector;
 
 import box2D.dynamics.*;
 import box2D.dynamics.controllers.*;
@@ -18,6 +19,7 @@ class Slide extends Sprite {
 
   private var world:B2World;
   private var dbgSprite:Sprite;
+  private var slideSprite:Sprite;
 
   private var running:Bool;
   private var mouseDown:Bool;
@@ -30,6 +32,9 @@ class Slide extends Sprite {
 
     running = false;
     mouseDown = false;
+
+    slideSprite = new Sprite();
+    addChild(slideSprite);
 
     var debug = new B2DebugDraw();
     dbgSprite = new Sprite();
@@ -56,7 +61,7 @@ class Slide extends Sprite {
     //edge.createFixture(fixture);
 
     for (i in 0...10)
-    createBody(240+i*40, 100, 10, 20);
+    createBody(240+i*40, 100, 15, 20);
   }
 
   public function update():Void
@@ -73,6 +78,11 @@ class Slide extends Sprite {
     var bodyDef = new B2BodyDef();
     bodyDef.type = STATIC_BODY;
 
+    var x0 = (p0.x - x);
+    var y0 = (p0.y - y);
+    var x1 = (p1.x - x);
+    var y1 = (p1.y - y);
+
     var shape = new B2PolygonShape();
     shape.setAsEdge(new B2Vec2((p0.x - x) / Slide.worldScale, (p0.y - y) / Slide.worldScale), new B2Vec2((p1.x - x) / Slide.worldScale, (p1.y - y) / Slide.worldScale));
     var fixture = new B2FixtureDef();
@@ -80,6 +90,16 @@ class Slide extends Sprite {
 
     var edge = world.createBody(bodyDef);
     edge.createFixture(fixture);
+
+    // Draw slide
+    slideSprite.graphics.beginFill(0xdefec8, 1);
+    slideSprite.graphics.lineStyle(4, 0x333333, 1);
+
+    slideSprite.graphics.moveTo(x0, y0);
+    slideSprite.graphics.lineTo(x0, y0 - 20);
+    slideSprite.graphics.lineTo(x1, y1 - 20);
+    slideSprite.graphics.lineTo(x1, y1);
+    slideSprite.graphics.lineTo(x0, y0);
   }
 
   private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
