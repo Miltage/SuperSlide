@@ -18,7 +18,7 @@ enum Mode {
   ERASE;
 }
 
-typedef Piece = { var p0:Point; var p1:Point; var edge:B2Body; var sprites:Array<Sprite>; }
+typedef Piece = { var p0:Point; var p1:Point; var edge:B2Body; var sprites:Array<Sprite>; @:optional var lastPiece:Piece; @:optional var nextPiece:Piece; }
 
 class Slide extends Sprite {
 
@@ -28,7 +28,7 @@ class Slide extends Sprite {
   private var world:B2World;
   private var dbgSprite:Sprite;
   private var slideSprite:Sprite;
-  private var lastPiece:Sprite;
+  private var lastPiece:Piece;
   private var drawButton:CircleButton;
   private var eraseButton:CircleButton;
 
@@ -147,14 +147,15 @@ class Slide extends Sprite {
 
     if (lastPiece != null)
     {
-      var sx = lastPiece.x;
-      var sy = lastPiece.y;
-      var sr = lastPiece.rotation;
+      var sx = lastPiece.p0.x;
+      var sy = lastPiece.p0.y;
+      var sr = lastPiece.sprites[lastPiece.sprites.length-1].rotation;
       var dx = x0 - sx;
       var dy = y0 - sy;
       var dr = r - sr;
       if (dr < -180) dr += 360;
       else if (dr > 180) dr -= 360;
+
       for (i in 0...(intervals-1))
       {
         // Add slide piece
@@ -166,7 +167,6 @@ class Slide extends Sprite {
         s.rotation = sr + dr/intervals*(i+1);
         slideSprite.addChild(s);
         sprites.push(s);
-        lastPiece = s;
       }
     }
     
@@ -181,10 +181,15 @@ class Slide extends Sprite {
     s.y = p0.y - y;
     slideSprite.addChild(s);
     sprites.push(s);
-    lastPiece = s;
 
-    var piece = { p0: p0, p1: p1, edge: edge, sprites: sprites };
+    var piece = { p0: p0, p1: p1, edge: edge, sprites: sprites, lastPiece: null };
     pieces.push(piece);
+    if (lastPiece != null)
+    {
+      lastPiece.nextPiece = piece;
+      piece.lastPiece = lastPiece;
+    }
+    lastPiece = piece;
 
     redraw();
     
@@ -256,7 +261,26 @@ class Slide extends Sprite {
         {
           world.destroyBody(p.edge);
           for (sprite in p.sprites)
-            slideSprite.removeChild(sprite);
+          {
+            if (slideSprite.contains(sprite))
+              slideSprite.removeChild(sprite); 
+          }
+          p.sprites = new Array<Sprite>();
+
+          if (p.nextPiece != null)
+          {
+            for (i in 0...p.nextPiece.sprites.length-2)
+            {
+              slideSprite.removeChild(p.nextPiece.sprites[i]); 
+            }
+            p.nextPiece.lastPiece = null;
+          }
+
+          if (p.lastPiece != null)
+          {
+            p.lastPiece.nextPiece = null;
+          }
+
           pieces.remove(p);
         }
       }
