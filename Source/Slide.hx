@@ -66,7 +66,7 @@ class Slide extends Sprite {
     addChild(dbgSprite);
 
     world = new B2World(new B2Vec2 (0, 2), true);
-    world.setDebugDraw(debug);
+    //world.setDebugDraw(debug);
     worldOffset = new Point();
     pieces = new Array<Piece>();
     riders = new Array<Rider>();
@@ -152,7 +152,7 @@ class Slide extends Sprite {
         // Add slide piece
         var s = new Sprite();
         s.graphics.beginFill(0xe59751, 1);
-        s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1)/2, 40, 5);
+        s.graphics.drawRoundRect(0, -25, Point.distance(p0, p1)/2, 25, 5);
         s.x = sx + dx/intervals*(i+1);
         s.y = sy + dy/intervals*(i+1);
         s.rotation = sr + dr/intervals*(i+1);
@@ -164,7 +164,7 @@ class Slide extends Sprite {
     // Add final slide piece
     var s = new Sprite();
     s.graphics.beginFill(0xe59751, 1);
-    s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1), 40, 5);
+    s.graphics.drawRoundRect(0, -25, Point.distance(p0, p1), 25, 5);
     var dx = x1 - x0;
     var dy = y1 - y0;
     s.rotation = Math.atan2(dy,dx) * 180 / Math.PI;
