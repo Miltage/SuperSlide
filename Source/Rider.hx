@@ -36,13 +36,16 @@ class Rider extends Sprite {
     this.world = world;
     this.index = index;
 
+    var e:Int = Std.int(Math.random()*2);
+    var g:Int = Std.int(Math.random()*2);
+
     vel = new Point();
 
     createBody(x, y);
 
     arm1 = new Sprite();
     {
-      var bmp = new Bitmap(Assets.getBitmapData("assets/arm1.png"));
+      var bmp = new Bitmap(Assets.getBitmapData("assets/arm"+(e==0?"1":"3")+".png"));
       arm1.addChild(bmp);
       bmp.x -= 33;
       bmp.y -= 32;
@@ -53,7 +56,7 @@ class Rider extends Sprite {
 
     leg1 = new Sprite();
     {
-      var bmp = new Bitmap(Assets.getBitmapData("assets/leg1.png"));
+      var bmp = new Bitmap(Assets.getBitmapData("assets/leg"+(e==0?"1":"3")+".png"));
       leg1.addChild(bmp);
       bmp.x -= 62;
       bmp.y -= 41;
@@ -64,7 +67,7 @@ class Rider extends Sprite {
 
     leg2 = new Sprite();
     {
-      var bmp = new Bitmap(Assets.getBitmapData("assets/leg2.png"));
+      var bmp = new Bitmap(Assets.getBitmapData("assets/leg"+(e==0?"2":"4")+".png"));
       leg1.addChild(bmp);
       bmp.x -= 62;
       bmp.y -= 38;
@@ -74,20 +77,27 @@ class Rider extends Sprite {
     addChild(leg2);
 
     torso = new Sprite();
-    torso.addChild(new Bitmap(Assets.getBitmapData("assets/torso1.png")));
-    torso.x = -torso.width/2;
-    torso.y = -torso.height/2;
+    {
+      var t:Int = e == 0 ? Std.int(Math.random()*3)+1 : Std.int(Math.random()*3)+4;
+      t += g*6;
+      torso.addChild(new Bitmap(Assets.getBitmapData("assets/torso"+t+".png")));
+      torso.x = -torso.width/2;
+      torso.y = -torso.height/2;
+    }
     addChild(torso);
 
     head = new Sprite();
-    head.addChild(new Bitmap(Assets.getBitmapData("assets/head1.png")));
-    head.x = -head.width/2;
-    head.y = -head.height/2;
+    {
+      var h:Int = e == 0 ? Std.int(Math.random()*3)+1+g*4 : 4+g*4;
+      head.addChild(new Bitmap(Assets.getBitmapData("assets/head"+h+".png")));
+      head.x = -head.width/2;
+      head.y = -head.height/2;
+    }
     addChild(head);
 
     arm2 = new Sprite();
     {
-      var bmp = new Bitmap(Assets.getBitmapData("assets/arm2.png"));
+      var bmp = new Bitmap(Assets.getBitmapData("assets/arm"+(e==0?"2":"4")+".png"));
       arm2.addChild(bmp);
       bmp.x -= 36;
       bmp.y -= 36;

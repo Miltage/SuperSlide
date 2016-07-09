@@ -66,7 +66,7 @@ class Slide extends Sprite {
     addChild(dbgSprite);
 
     world = new B2World(new B2Vec2 (0, 2), true);
-    world.setDebugDraw(debug);
+    //world.setDebugDraw(debug);
     worldOffset = new Point();
     pieces = new Array<Piece>();
     riders = new Array<Rider>();
