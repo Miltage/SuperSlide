@@ -1,7 +1,7 @@
 package;
 
 import openfl.display.Sprite;
-import openfl.display.MouseEvent;
+import openfl.events.MouseEvent;
 
 class Button extends Sprite {
 
@@ -9,8 +9,9 @@ class Button extends Sprite {
   
   public function new(onClick:Void->Void)
   {
+    super();
     this.onClick = onClick;
-    
+
     addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
     addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
     addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -34,6 +35,7 @@ class Button extends Sprite {
 
   public function onMouseUp(m:MouseEvent):Void
   {
-
+    if (onClick != null)
+      onClick();
   }
 }

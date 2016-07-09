@@ -24,6 +24,8 @@ class Slide extends Sprite {
   private var dbgSprite:Sprite;
   private var slideSprite:Sprite;
   private var lastPiece:Sprite;
+  private var drawButton:CircleButton;
+  private var eraseButton:CircleButton;
 
   private var running:Bool;
   private var mouseDown:Bool;
@@ -70,6 +72,20 @@ class Slide extends Sprite {
 
     for (i in 0...10)
     createBody(240+i*40, 100, 15, 20);
+
+    drawButton = new CircleButton("pencil", function(){
+
+    });
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    drawButton.y = Lib.current.stage.stageHeight - 40;
+    addChild(drawButton);
+
+    eraseButton = new CircleButton("eraser", function(){
+
+    });
+    eraseButton.x = Lib.current.stage.stageWidth - 40;
+    eraseButton.y = Lib.current.stage.stageHeight - 40;
+    addChild(eraseButton);
   }
 
   public function update():Void
