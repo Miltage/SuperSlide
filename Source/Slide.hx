@@ -126,10 +126,13 @@ class Slide extends Sprite {
     var bodyDef = new B2BodyDef();
     bodyDef.type = STATIC_BODY;
 
-    var x0 = (p0.x - worldOffset.x);
-    var y0 = (p0.y - worldOffset.y);
-    var x1 = (p1.x - worldOffset.x);
-    var y1 = (p1.y - worldOffset.y);
+    p0 = p0.subtract(worldOffset);
+    p1 = p1.subtract(worldOffset);
+
+    var x0 = p0.x;
+    var y0 = p0.y;
+    var x1 = p1.x;
+    var y1 = p1.y;
 
     var shape = new B2PolygonShape();
     shape.setAsEdge(new B2Vec2(x0 / Slide.worldScale, y0 / Slide.worldScale), new B2Vec2(x1 / Slide.worldScale, y1 / Slide.worldScale));
@@ -177,8 +180,8 @@ class Slide extends Sprite {
     var dx = x1 - x0;
     var dy = y1 - y0;
     s.rotation = Math.atan2(dy,dx) * 180 / Math.PI;
-    s.x = p0.x - x;
-    s.y = p0.y - y;
+    s.x = p0.x;
+    s.y = p0.y;
     slideSprite.addChild(s);
     sprites.push(s);
 
