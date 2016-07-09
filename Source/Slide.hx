@@ -13,6 +13,8 @@ import box2D.collision.*;
 import box2D.collision.shapes.*;
 import box2D.common.math.*;
 
+typedef Piece = { var p0:Point; var p1:Point; var edge:B2Body; var sprites:Array<Sprite>; }
+
 class Slide extends Sprite {
 
   public static var worldScale:Float = 30;
@@ -28,6 +30,7 @@ class Slide extends Sprite {
 
   private var lastPos:Point;
   private var worldOffset:Point;
+  private var pieces:Array<Piece>;
 
   public function new() 
   {
@@ -51,6 +54,7 @@ class Slide extends Sprite {
     world = new B2World(new B2Vec2 (0, 2), true);
     world.setDebugDraw(debug);
     worldOffset = new Point();
+    pieces = new Array<Piece>();
 
     // Create edge
     var bodyDef = new B2BodyDef();
@@ -109,6 +113,8 @@ class Slide extends Sprite {
     var dy = y1 - y0;
     var r = Math.atan2(dy,dx) * 180 / Math.PI;
 
+    var sprites:Array<Sprite> = new Array<Sprite>();
+
     if (lastPiece != null)
     {
       var sx = lastPiece.x;
@@ -129,6 +135,7 @@ class Slide extends Sprite {
         s.y = sy + dy/intervals*(i+1);
         s.rotation = sr + dr/intervals*(i+1);
         slideSprite.addChild(s);
+        sprites.push(s);
         lastPiece = s;
       }
     }
@@ -143,7 +150,11 @@ class Slide extends Sprite {
     s.x = p0.x - x;
     s.y = p0.y - y;
     slideSprite.addChild(s);
+    sprites.push(s);
     lastPiece = s;
+
+    var piece = { p0: p0, p1: p1, edge: edge, sprites: sprites };
+    pieces.push(piece);
     
   }
 
