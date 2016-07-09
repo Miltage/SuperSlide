@@ -22,7 +22,9 @@ class Main extends Sprite {
 		slide = new Slide();
 		addChild(slide);
 
-		addEventListener(Event.ENTER_FRAME, update);
+		stage.addEventListener(Event.ENTER_FRAME, update);
+		stage.addEventListener(Event.RESIZE, onResize);
+
 		stage.addEventListener(MouseEvent.CLICK, slide.onMouseClick);
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, slide.onMouseDown);
 		stage.addEventListener(MouseEvent.MOUSE_UP, slide.onMouseUp);
@@ -56,6 +58,14 @@ class Main extends Sprite {
 	public function update(e:Event):Void
   {
   	slide.update();
+  }
+
+  public function onResize(e:Event):Void
+  {
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    drawButton.y = Lib.current.stage.stageHeight - 40;
+    eraseButton.x = Lib.current.stage.stageWidth - 40;
+    eraseButton.y = Lib.current.stage.stageHeight - 40;
   }
 	
 	

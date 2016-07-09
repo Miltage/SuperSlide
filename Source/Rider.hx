@@ -16,6 +16,7 @@ class Rider extends Sprite {
 
   private var world:B2World;
   private var body:B2Body;
+  private var body2:B2Body;
   private var index:Int;
 
   private var arm1:Sprite;
@@ -98,8 +99,8 @@ class Rider extends Sprite {
 
   public function update():Void
   {
-    this.x = body.getWorldCenter().x * Slide.worldScale;
-    this.y = body.getWorldCenter().y * Slide.worldScale;
+    this.x = (body.getWorldCenter().x + (body2.getWorldCenter().x - body.getWorldCenter().x)/2) * Slide.worldScale;
+    this.y = (body.getWorldCenter().y + (body2.getWorldCenter().y - body.getWorldCenter().y)/2) * Slide.worldScale;
 
     var bodyVel = body.getLinearVelocity();
     vel.y += (bodyVel.y - vel.y)/10;
@@ -108,17 +109,22 @@ class Rider extends Sprite {
     arm1.rotation = Math.min(50, vel.y*10);
     leg1.rotation = Math.max(-40, -vel.y*12);
     leg2.rotation = Math.max(-40, -vel.y*8);
+
+    var dx = body2.getWorldCenter().x - body.getWorldCenter().x;
+    var dy = body2.getWorldCenter().y - body.getWorldCenter().y;
+    var r = Math.atan2(dy,dx) * 180 / Math.PI;
+    rotation = r;
   }
 
   private function createBody(x:Float, y:Float):Void 
   {
     // Create shape
     var bodyDef = new B2BodyDef();
-    bodyDef.position.set (x / Slide.worldScale, y / Slide.worldScale);
+    bodyDef.position.set ((x - 15) / Slide.worldScale, y / Slide.worldScale);
     bodyDef.type = DYNAMIC_BODY;
 
-    // Head
-    var shape:Dynamic = new B2CircleShape(18 / Slide.worldScale);
+    // Body 1
+    var shape:Dynamic = new B2CircleShape(15 / Slide.worldScale);
     //shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
@@ -129,6 +135,26 @@ class Rider extends Sprite {
 
     body = world.createBody (bodyDef);
     body.createFixture (fixture);
+
+    bodyDef = new B2BodyDef();
+    bodyDef.position.set (x / Slide.worldScale, y / Slide.worldScale);
+    bodyDef.type = DYNAMIC_BODY;
+
+    // Body 2
+    bodyDef.position.set ((x + 15) / Slide.worldScale, y / Slide.worldScale);
+    var fixture = new B2FixtureDef();
+    fixture.shape = shape;
+    fixture.density = 0;
+    fixture.restitution = 0.2;
+    fixture.friction = 0;
+    fixture.filter.groupIndex = -index;
+
+    body2 = world.createBody (bodyDef);
+    body2.createFixture (fixture);
+
+    var jointDef = new B2DistanceJointDef();
+    jointDef.initialize(body, body2, body.getWorldCenter(), body2.getWorldCenter());
+    world.createJoint(jointDef);
 
     /*// Torso
     bodyDef.position.set (x / Slide.worldScale, (y + 30) / Slide.worldScale);
