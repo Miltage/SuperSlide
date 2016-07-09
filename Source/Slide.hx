@@ -31,6 +31,7 @@ class Slide extends Sprite {
   private var lastPiece:Piece;
 
   private var running:Bool;
+  private var dragging:Bool;
   private var mouseDown:Bool;
 
   private var lastPos:Point;
@@ -44,6 +45,7 @@ class Slide extends Sprite {
     super();
 
     running = false;
+    dragging = false;
     mouseDown = false;
     mode = DRAW;
 
@@ -195,7 +197,7 @@ class Slide extends Sprite {
 
   public function onMouseMove(m:MouseEvent):Void
   {
-    if (mouseDown && m.altKey)
+    if (mouseDown && dragging)
     {
       var currentPos = new Point(stage.mouseX, stage.mouseY);
       worldOffset.x += currentPos.x - lastPos.x;
@@ -251,12 +253,23 @@ class Slide extends Sprite {
     }
   }
 
-  public function onKeyUp(k:KeyboardEvent):Void
+  public function onKeyDown(k:KeyboardEvent):Void
   {
-    
     switch(k.keyCode)
     {
       case 32: // SPACE 
+        dragging = true;
+    }
+  }
+
+  public function onKeyUp(k:KeyboardEvent):Void
+  {
+    //trace(k.keyCode);
+    switch(k.keyCode)
+    {
+      case 32: // SPACE 
+        dragging = false;
+      case 13: // ENTER
         running = !running;
     }
   }

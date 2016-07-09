@@ -28,6 +28,7 @@ class Main extends Sprite {
 		stage.addEventListener(MouseEvent.MOUSE_UP, slide.onMouseUp);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, slide.onMouseMove);
 
+		stage.addEventListener(KeyboardEvent.KEY_DOWN, slide.onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, slide.onKeyUp);
 
 		ui = new Sprite();
