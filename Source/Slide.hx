@@ -65,21 +65,9 @@ class Slide extends Sprite {
     pieces = new Array<Piece>();
     riders = new Array<Rider>();
 
-    // Create edge
-    var bodyDef = new B2BodyDef();
-    bodyDef.type = STATIC_BODY;
-
-    var shape = new B2PolygonShape();
-    shape.setAsEdge(new B2Vec2(250 / Slide.worldScale, 400 / Slide.worldScale), new B2Vec2(600 / Slide.worldScale, 400 / Slide.worldScale));
-    var fixture = new B2FixtureDef();
-    fixture.shape = shape;
-
-    //var edge = world.createBody(bodyDef);
-    //edge.createFixture(fixture);
-
     for (i in 0...10)
     {
-      var r = new Rider(240+i*40, 100, world);
+      var r = new Rider(240+i*80, 100, world, i);
       addChild(r);
       riders.push(r);
     }
