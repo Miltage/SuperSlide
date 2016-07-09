@@ -17,7 +17,7 @@ class Main extends Sprite {
 	public function new () {
 		
 		super ();
-		stage.color = 0x666666;
+		stage.color = 0x7ad1e5;
 		
 		slide = new Slide();
 		addChild(slide);

@@ -1,6 +1,8 @@
 package;
 
 import openfl.display.Sprite;
+import openfl.display.Bitmap;
+import openfl.Assets;
 
 import box2D.dynamics.*;
 import box2D.dynamics.joints.*;
@@ -12,7 +14,14 @@ import box2D.common.math.*;
 class Rider extends Sprite {
 
   private var world:B2World;
+  private var body:B2Body;
   private var index:Int;
+
+  private var arm1:Bitmap;
+  private var arm2:Bitmap;
+  private var legs:Bitmap;
+  private var torso:Bitmap;
+  private var head:Bitmap;
   
   public function new(x:Float, y:Float, world:B2World, index:Int)
   {
@@ -23,6 +32,37 @@ class Rider extends Sprite {
     this.index = index;
 
     createBody(x, y);
+
+    arm1 = new Bitmap(Assets.getBitmapData("assets/arm1.png"));
+    arm1.x = -arm1.width/2;
+    arm1.y = -arm1.height/2 + 5;
+    addChild(arm1);
+
+    legs = new Bitmap(Assets.getBitmapData("assets/legs.png"));
+    legs.x = -legs.width/2;
+    legs.y = -legs.height/2 + 5;
+    addChild(legs);
+
+    torso = new Bitmap(Assets.getBitmapData("assets/torso1.png"));
+    torso.x = -torso.width/2;
+    torso.y = -torso.height/2 + 5;
+    addChild(torso);
+
+    head = new Bitmap(Assets.getBitmapData("assets/head1.png"));
+    head.x = -head.width/2;
+    head.y = -head.height/2 + 5;
+    addChild(head);
+
+    arm2 = new Bitmap(Assets.getBitmapData("assets/arm2.png"));
+    arm2.x = -arm1.width/2;
+    arm2.y = -arm1.height/2 + 5;
+    addChild(arm2);
+  }
+
+  public function update():Void
+  {
+    this.x = body.getWorldCenter().x * Slide.worldScale;
+    this.y = body.getWorldCenter().y * Slide.worldScale;
   }
 
   private function createBody(x:Float, y:Float):Void 
@@ -33,7 +73,7 @@ class Rider extends Sprite {
     bodyDef.type = DYNAMIC_BODY;
 
     // Head
-    var shape:Dynamic = new B2CircleShape(20 / Slide.worldScale);
+    var shape:Dynamic = new B2CircleShape(25 / Slide.worldScale);
     //shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
@@ -42,8 +82,8 @@ class Rider extends Sprite {
     fixture.friction = 0;
     fixture.filter.groupIndex = -index;
 
-    var head = world.createBody (bodyDef);
-    head.createFixture (fixture);
+    body = world.createBody (bodyDef);
+    body.createFixture (fixture);
 
     /*// Torso
     bodyDef.position.set (x / Slide.worldScale, (y + 30) / Slide.worldScale);

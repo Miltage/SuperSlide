@@ -84,14 +84,17 @@ class Slide extends Sprite {
 
     this.x = worldOffset.x;
     this.y = worldOffset.y;
+
+    for (rider in riders)
+      rider.update();
   }
 
   private function redraw():Void
   {
     slideSprite.graphics.clear();
     // Draw track
-    slideSprite.graphics.beginFill(0xdefec8, 1);
-    slideSprite.graphics.lineStyle(8, 0x333333, 1);
+    slideSprite.graphics.beginFill(0xe59751, 1);
+    slideSprite.graphics.lineStyle(8, 0xda7a24, 1);
 
     for (p in pieces)
     {
@@ -143,7 +146,7 @@ class Slide extends Sprite {
       {
         // Add slide piece
         var s = new Sprite();
-        s.graphics.beginFill(0xdefec8, 1);
+        s.graphics.beginFill(0xe59751, 1);
         s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1)/2, 40, 5);
         s.x = sx + dx/intervals*(i+1);
         s.y = sy + dy/intervals*(i+1);
@@ -155,7 +158,7 @@ class Slide extends Sprite {
     
     // Add final slide piece
     var s = new Sprite();
-    s.graphics.beginFill(0xdefec8, 1);
+    s.graphics.beginFill(0xe59751, 1);
     s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1), 40, 5);
     var dx = x1 - x0;
     var dy = y1 - y0;
