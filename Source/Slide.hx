@@ -27,6 +27,7 @@ class Slide extends Sprite {
 
   private var world:B2World;
   private var dbgSprite:Sprite;
+  private var riderSprite:Sprite;
   private var slideSprite:Sprite;
   private var lastPiece:Piece;
 
@@ -49,6 +50,9 @@ class Slide extends Sprite {
     mouseDown = false;
     mode = DRAW;
 
+    riderSprite = new Sprite();
+    addChild(riderSprite);
+
     slideSprite = new Sprite();
     addChild(slideSprite);
 
@@ -70,7 +74,7 @@ class Slide extends Sprite {
     for (i in 0...5)
     {
       var r = new Rider(240+i*80, 100, world, i);
-      addChild(r);
+      riderSprite.addChild(r);
       riders.push(r);
     }
   }
