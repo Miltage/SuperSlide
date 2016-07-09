@@ -106,6 +106,20 @@ class Slide extends Sprite {
     this.y = worldOffset.y;
   }
 
+  private function redraw():Void
+  {
+    slideSprite.graphics.clear();
+    // Draw track
+    slideSprite.graphics.beginFill(0xdefec8, 1);
+    slideSprite.graphics.lineStyle(8, 0x333333, 1);
+
+    for (p in pieces)
+    {
+      slideSprite.graphics.moveTo(p.p0.x, p.p0.y);
+      slideSprite.graphics.lineTo(p.p1.x, p.p1.y);
+    }
+  }
+
   private function drawSlide(p0:Point, p1:Point):Void
   {
     // Create edge
@@ -124,13 +138,6 @@ class Slide extends Sprite {
 
     var edge = world.createBody(bodyDef);
     edge.createFixture(fixture);
-
-    // Draw slide
-    slideSprite.graphics.beginFill(0xdefec8, 1);
-    slideSprite.graphics.lineStyle(8, 0x333333, 1);
-
-    slideSprite.graphics.moveTo(x0, y0);
-    slideSprite.graphics.lineTo(x1, y1);
 
     var dx = x1 - x0;
     var dy = y1 - y0;
@@ -178,6 +185,8 @@ class Slide extends Sprite {
 
     var piece = { p0: p0, p1: p1, edge: edge, sprites: sprites };
     pieces.push(piece);
+
+    redraw();
     
   }
 
@@ -251,6 +260,7 @@ class Slide extends Sprite {
           pieces.remove(p);
         }
       }
+      redraw();
     }
   }
 
