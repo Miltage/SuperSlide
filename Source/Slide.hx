@@ -235,6 +235,23 @@ class Slide extends Sprite {
         lastPos = currentPos;
       }
     }
+    else if (mouseDown && mode == ERASE)
+    {
+      for (p in pieces)
+      { 
+        var currentPos = new Point(stage.mouseX, stage.mouseY);
+        var dx = p.p1.x - p.p0.x;
+        var dy = p.p1.y - p.p0.y;
+        var midPoint = new Point(p.p0.x + dx/2, p.p0.y + dy/2);
+        if (Point.distance(currentPos, midPoint) < 25)
+        {
+          world.destroyBody(p.edge);
+          for (sprite in p.sprites)
+            slideSprite.removeChild(sprite);
+          pieces.remove(p);
+        }
+      }
+    }
   }
 
   public function onKeyUp(k:KeyboardEvent):Void
