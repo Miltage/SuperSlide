@@ -16,10 +16,12 @@ import box2D.common.math.*;
 class Slide extends Sprite {
 
   public static var worldScale:Float = 30;
+  public static var intervals:Int = 15;
 
   private var world:B2World;
   private var dbgSprite:Sprite;
   private var slideSprite:Sprite;
+  private var lastPiece:Sprite;
 
   private var running:Bool;
   private var mouseDown:Bool;
@@ -103,7 +105,35 @@ class Slide extends Sprite {
     slideSprite.graphics.moveTo(x0, y0);
     slideSprite.graphics.lineTo(x1, y1);
 
-    // Add slide piece
+    var dx = x1 - x0;
+    var dy = y1 - y0;
+    var r = Math.atan2(dy,dx) * 180 / Math.PI;
+
+    if (lastPiece != null)
+    {
+      var sx = lastPiece.x;
+      var sy = lastPiece.y;
+      var sr = lastPiece.rotation;
+      var dx = x0 - sx;
+      var dy = y0 - sy;
+      var dr = r - sr;
+      if (dr < -180) dr += 360;
+      else if (dr > 180) dr -= 360;
+      for (i in 0...(intervals-1))
+      {
+        // Add slide piece
+        var s = new Sprite();
+        s.graphics.beginFill(0xdefec8, 1);
+        s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1)/2, 40, 5);
+        s.x = sx + dx/intervals*(i+1);
+        s.y = sy + dy/intervals*(i+1);
+        s.rotation = sr + dr/intervals*(i+1);
+        slideSprite.addChild(s);
+        lastPiece = s;
+      }
+    }
+    
+    // Add final slide piece
     var s = new Sprite();
     s.graphics.beginFill(0xdefec8, 1);
     s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1), 40, 5);
@@ -113,6 +143,8 @@ class Slide extends Sprite {
     s.x = p0.x - x;
     s.y = p0.y - y;
     slideSprite.addChild(s);
+    lastPiece = s;
+    
   }
 
   private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
@@ -148,6 +180,7 @@ class Slide extends Sprite {
   public function onMouseUp(m:MouseEvent):Void
   {
     mouseDown = false;
+    lastPiece = null;
   }
 
   public function onMouseMove(m:MouseEvent):Void
