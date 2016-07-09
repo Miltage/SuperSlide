@@ -101,10 +101,18 @@ class Slide extends Sprite {
     slideSprite.graphics.lineStyle(8, 0x333333, 1);
 
     slideSprite.graphics.moveTo(x0, y0);
-    //slideSprite.graphics.lineTo(x0, y0 - 20);
-    //slideSprite.graphics.lineTo(x1, y1 - 20);
     slideSprite.graphics.lineTo(x1, y1);
-    //slideSprite.graphics.lineTo(x0, y0);
+
+    // Add slide piece
+    var s = new Sprite();
+    s.graphics.beginFill(0xdefec8, 1);
+    s.graphics.drawRoundRect(0, -40, Point.distance(p0, p1), 40, 5);
+    var dx = x1 - x0;
+    var dy = y1 - y0;
+    s.rotation = Math.atan2(dy,dx) * 180 / Math.PI;
+    s.x = p0.x - x;
+    s.y = p0.y - y;
+    slideSprite.addChild(s);
   }
 
   private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
