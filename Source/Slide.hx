@@ -25,6 +25,7 @@ class Slide extends Sprite {
   private var mouseDown:Bool;
 
   private var lastPos:Point;
+  private var worldOffset:Point;
 
   public function new() 
   {
@@ -47,6 +48,7 @@ class Slide extends Sprite {
 
     world = new B2World(new B2Vec2 (0, 2), true);
     world.setDebugDraw(debug);
+    worldOffset = new Point();
 
     // Create edge
     var bodyDef = new B2BodyDef();
@@ -70,6 +72,9 @@ class Slide extends Sprite {
       world.step(1/Lib.current.stage.frameRate, 10, 10);
     world.clearForces();
     world.drawDebugData();
+
+    this.x = worldOffset.x;
+    this.y = worldOffset.y;
   }
 
   private function drawSlide(p0:Point, p1:Point):Void
@@ -78,13 +83,13 @@ class Slide extends Sprite {
     var bodyDef = new B2BodyDef();
     bodyDef.type = STATIC_BODY;
 
-    var x0 = (p0.x - x);
-    var y0 = (p0.y - y);
-    var x1 = (p1.x - x);
-    var y1 = (p1.y - y);
+    var x0 = (p0.x - worldOffset.x);
+    var y0 = (p0.y - worldOffset.y);
+    var x1 = (p1.x - worldOffset.x);
+    var y1 = (p1.y - worldOffset.y);
 
     var shape = new B2PolygonShape();
-    shape.setAsEdge(new B2Vec2((p0.x - x) / Slide.worldScale, (p0.y - y) / Slide.worldScale), new B2Vec2((p1.x - x) / Slide.worldScale, (p1.y - y) / Slide.worldScale));
+    shape.setAsEdge(new B2Vec2(x0 / Slide.worldScale, y0 / Slide.worldScale), new B2Vec2(x1 / Slide.worldScale, y1 / Slide.worldScale));
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
 
@@ -93,13 +98,13 @@ class Slide extends Sprite {
 
     // Draw slide
     slideSprite.graphics.beginFill(0xdefec8, 1);
-    slideSprite.graphics.lineStyle(4, 0x333333, 1);
+    slideSprite.graphics.lineStyle(8, 0x333333, 1);
 
     slideSprite.graphics.moveTo(x0, y0);
-    slideSprite.graphics.lineTo(x0, y0 - 20);
-    slideSprite.graphics.lineTo(x1, y1 - 20);
+    //slideSprite.graphics.lineTo(x0, y0 - 20);
+    //slideSprite.graphics.lineTo(x1, y1 - 20);
     slideSprite.graphics.lineTo(x1, y1);
-    slideSprite.graphics.lineTo(x0, y0);
+    //slideSprite.graphics.lineTo(x0, y0);
   }
 
   private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
@@ -129,7 +134,7 @@ class Slide extends Sprite {
   public function onMouseDown(m:MouseEvent):Void
   {
     mouseDown = true;
-    lastPos = new Point(m.localX, m.localY);
+    lastPos = new Point(stage.mouseX, stage.mouseY);
   }
 
   public function onMouseUp(m:MouseEvent):Void
@@ -141,14 +146,14 @@ class Slide extends Sprite {
   {
     if (mouseDown && m.altKey)
     {
-      var currentPos = new Point(m.localX, m.localY);
-      this.x += currentPos.x - lastPos.x;
-      this.y += currentPos.y - lastPos.y;
+      var currentPos = new Point(stage.mouseX, stage.mouseY);
+      worldOffset.x += currentPos.x - lastPos.x;
+      worldOffset.y += currentPos.y - lastPos.y;
       lastPos = currentPos;
     }
     else if (mouseDown)
     {
-      var currentPos = new Point(m.localX, m.localY);
+      var currentPos = new Point(stage.mouseX, stage.mouseY);
       if (Point.distance(currentPos, lastPos) > 25)
       {
         drawSlide(lastPos, currentPos);
