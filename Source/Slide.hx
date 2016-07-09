@@ -67,7 +67,7 @@ class Slide extends Sprite {
     pieces = new Array<Piece>();
     riders = new Array<Rider>();
 
-    for (i in 0...10)
+    for (i in 0...5)
     {
       var r = new Rider(240+i*80, 100, world, i);
       addChild(r);
@@ -85,8 +85,9 @@ class Slide extends Sprite {
     this.x = worldOffset.x;
     this.y = worldOffset.y;
 
-    for (rider in riders)
-      rider.update();
+    if (running)
+      for (rider in riders)
+        rider.update();
   }
 
   private function redraw():Void

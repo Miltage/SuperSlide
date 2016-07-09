@@ -3,6 +3,7 @@ package;
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.Assets;
+import openfl.geom.Point;
 
 import box2D.dynamics.*;
 import box2D.dynamics.joints.*;
@@ -17,11 +18,14 @@ class Rider extends Sprite {
   private var body:B2Body;
   private var index:Int;
 
-  private var arm1:Bitmap;
-  private var arm2:Bitmap;
-  private var legs:Bitmap;
-  private var torso:Bitmap;
-  private var head:Bitmap;
+  private var arm1:Sprite;
+  private var arm2:Sprite;
+  private var leg1:Sprite;
+  private var leg2:Sprite;
+  private var torso:Sprite;
+  private var head:Sprite;
+
+  private var vel:Point;
   
   public function new(x:Float, y:Float, world:B2World, index:Int)
   {
@@ -31,31 +35,64 @@ class Rider extends Sprite {
     this.world = world;
     this.index = index;
 
+    vel = new Point();
+
     createBody(x, y);
 
-    arm1 = new Bitmap(Assets.getBitmapData("assets/arm1.png"));
-    arm1.x = -arm1.width/2;
-    arm1.y = -arm1.height/2 + 5;
+    arm1 = new Sprite();
+    {
+      var bmp = new Bitmap(Assets.getBitmapData("assets/arm1.png"));
+      arm1.addChild(bmp);
+      bmp.x -= 33;
+      bmp.y -= 32;
+      arm1.x = -arm1.width/2 + 33;
+      arm1.y = -arm1.height/2 + 32;
+    }
     addChild(arm1);
 
-    legs = new Bitmap(Assets.getBitmapData("assets/legs.png"));
-    legs.x = -legs.width/2;
-    legs.y = -legs.height/2 + 5;
-    addChild(legs);
+    leg1 = new Sprite();
+    {
+      var bmp = new Bitmap(Assets.getBitmapData("assets/leg1.png"));
+      leg1.addChild(bmp);
+      bmp.x -= 62;
+      bmp.y -= 41;
+      leg1.x = -leg1.width/2 + 62;
+      leg1.y = -leg1.height/2 + 41;
+    }
+    addChild(leg1);
 
-    torso = new Bitmap(Assets.getBitmapData("assets/torso1.png"));
+    leg2 = new Sprite();
+    {
+      var bmp = new Bitmap(Assets.getBitmapData("assets/leg2.png"));
+      leg1.addChild(bmp);
+      bmp.x -= 62;
+      bmp.y -= 38;
+      leg2.x = -leg2.width/2 + 62;
+      leg2.y = -leg2.height/2 + 38;
+    }
+    addChild(leg2);
+
+    torso = new Sprite();
+    torso.addChild(new Bitmap(Assets.getBitmapData("assets/torso1.png")));
     torso.x = -torso.width/2;
-    torso.y = -torso.height/2 + 5;
+    torso.y = -torso.height/2;
     addChild(torso);
 
-    head = new Bitmap(Assets.getBitmapData("assets/head1.png"));
+    head = new Sprite();
+    head.addChild(new Bitmap(Assets.getBitmapData("assets/head1.png")));
     head.x = -head.width/2;
-    head.y = -head.height/2 + 5;
+    head.y = -head.height/2;
     addChild(head);
 
-    arm2 = new Bitmap(Assets.getBitmapData("assets/arm2.png"));
-    arm2.x = -arm1.width/2;
-    arm2.y = -arm1.height/2 + 5;
+    arm2 = new Sprite();
+    {
+      var bmp = new Bitmap(Assets.getBitmapData("assets/arm2.png"));
+      arm2.addChild(bmp);
+      bmp.x -= 36;
+      bmp.y -= 36;
+      arm2.x = -arm2.width/2 + 36;
+      arm2.y = -arm2.height/2 + 36;
+    }
     addChild(arm2);
   }
 
@@ -63,6 +100,14 @@ class Rider extends Sprite {
   {
     this.x = body.getWorldCenter().x * Slide.worldScale;
     this.y = body.getWorldCenter().y * Slide.worldScale;
+
+    var bodyVel = body.getLinearVelocity();
+    vel.y += (bodyVel.y - vel.y)/10;
+
+    arm2.rotation = Math.min(70, vel.y*15);
+    arm1.rotation = Math.min(50, vel.y*10);
+    leg1.rotation = Math.max(-40, -vel.y*12);
+    leg2.rotation = Math.max(-40, -vel.y*8);
   }
 
   private function createBody(x:Float, y:Float):Void 
@@ -73,7 +118,7 @@ class Rider extends Sprite {
     bodyDef.type = DYNAMIC_BODY;
 
     // Head
-    var shape:Dynamic = new B2CircleShape(25 / Slide.worldScale);
+    var shape:Dynamic = new B2CircleShape(18 / Slide.worldScale);
     //shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
     var fixture = new B2FixtureDef();
     fixture.shape = shape;
