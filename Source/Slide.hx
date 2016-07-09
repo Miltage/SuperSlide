@@ -13,6 +13,11 @@ import box2D.collision.*;
 import box2D.collision.shapes.*;
 import box2D.common.math.*;
 
+enum Mode {
+  DRAW;
+  ERASE;
+}
+
 typedef Piece = { var p0:Point; var p1:Point; var edge:B2Body; var sprites:Array<Sprite>; }
 
 class Slide extends Sprite {
@@ -33,6 +38,7 @@ class Slide extends Sprite {
   private var lastPos:Point;
   private var worldOffset:Point;
   private var pieces:Array<Piece>;
+  private var mode:Mode;
 
   public function new() 
   {
@@ -40,6 +46,7 @@ class Slide extends Sprite {
 
     running = false;
     mouseDown = false;
+    mode = DRAW;
 
     slideSprite = new Sprite();
     addChild(slideSprite);
@@ -74,14 +81,14 @@ class Slide extends Sprite {
     createBody(240+i*40, 100, 15, 20);
 
     drawButton = new CircleButton("pencil", function(){
-
+      mode = DRAW;
     });
     drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
     drawButton.y = Lib.current.stage.stageHeight - 40;
     addChild(drawButton);
 
     eraseButton = new CircleButton("eraser", function(){
-
+      mode = ERASE;
     });
     eraseButton.x = Lib.current.stage.stageWidth - 40;
     eraseButton.y = Lib.current.stage.stageHeight - 40;
@@ -219,7 +226,7 @@ class Slide extends Sprite {
       worldOffset.y += currentPos.y - lastPos.y;
       lastPos = currentPos;
     }
-    else if (mouseDown)
+    else if (mouseDown && mode == DRAW)
     {
       var currentPos = new Point(stage.mouseX, stage.mouseY);
       if (Point.distance(currentPos, lastPos) > 25)
