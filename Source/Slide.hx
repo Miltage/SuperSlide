@@ -29,8 +29,6 @@ class Slide extends Sprite {
   private var dbgSprite:Sprite;
   private var slideSprite:Sprite;
   private var lastPiece:Piece;
-  private var drawButton:CircleButton;
-  private var eraseButton:CircleButton;
 
   private var running:Bool;
   private var mouseDown:Bool;
@@ -78,21 +76,7 @@ class Slide extends Sprite {
     //edge.createFixture(fixture);
 
     for (i in 0...10)
-    createBody(240+i*40, 100, 15, 20);
-
-    drawButton = new CircleButton("pencil", function(){
-      mode = DRAW;
-    });
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
-    drawButton.y = Lib.current.stage.stageHeight - 40;
-    addChild(drawButton);
-
-    eraseButton = new CircleButton("eraser", function(){
-      mode = ERASE;
-    });
-    eraseButton.x = Lib.current.stage.stageWidth - 40;
-    eraseButton.y = Lib.current.stage.stageHeight - 40;
-    addChild(eraseButton);
+      createBody(240+i*40, 100, 15, 20);
   }
 
   public function update():Void
@@ -299,6 +283,11 @@ class Slide extends Sprite {
       case 32: // SPACE 
         running = !running;
     }
+  }
+
+  public function setMode(mode:Mode):Void
+  {
+    this.mode = mode;
   }
   
 }

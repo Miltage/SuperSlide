@@ -3,12 +3,16 @@ package;
 
 import openfl.display.Sprite;
 import openfl.events.Event;
+import openfl.Lib;
 import openfl.events.MouseEvent;
 import openfl.events.KeyboardEvent;
 
 class Main extends Sprite {
 	
 	private var slide:Slide;
+	private var ui:Sprite;
+  private var drawButton:CircleButton;
+  private var eraseButton:CircleButton;
 	
 	public function new () {
 		
@@ -26,8 +30,25 @@ class Main extends Sprite {
 
 		stage.addEventListener(KeyboardEvent.KEY_UP, slide.onKeyUp);
 
+		ui = new Sprite();
+		addChild(ui);
+
 		var fps_mem:FPS_Mem = new FPS_Mem(10, 10, 0xffffff);
-		addChild(fps_mem);
+		ui.addChild(fps_mem);
+
+    drawButton = new CircleButton("pencil", function(){
+      slide.setMode(DRAW);
+    });
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    drawButton.y = Lib.current.stage.stageHeight - 40;
+    ui.addChild(drawButton);
+
+    eraseButton = new CircleButton("eraser", function(){
+      slide.setMode(ERASE);
+    });
+    eraseButton.x = Lib.current.stage.stageWidth - 40;
+    eraseButton.y = Lib.current.stage.stageHeight - 40;
+    ui.addChild(eraseButton);
 		
 	}
 
