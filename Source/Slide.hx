@@ -36,6 +36,7 @@ class Slide extends Sprite {
   private var lastPos:Point;
   private var worldOffset:Point;
   private var pieces:Array<Piece>;
+  private var riders:Array<Rider>;
   private var mode:Mode;
 
   public function new() 
@@ -62,6 +63,7 @@ class Slide extends Sprite {
     world.setDebugDraw(debug);
     worldOffset = new Point();
     pieces = new Array<Piece>();
+    riders = new Array<Rider>();
 
     // Create edge
     var bodyDef = new B2BodyDef();
@@ -76,7 +78,11 @@ class Slide extends Sprite {
     //edge.createFixture(fixture);
 
     for (i in 0...10)
-      createBody(240+i*40, 100, 15, 20);
+    {
+      var r = new Rider(240+i*40, 100, world);
+      addChild(r);
+      riders.push(r);
+    }
   }
 
   public function update():Void
@@ -180,25 +186,6 @@ class Slide extends Sprite {
 
     redraw();
     
-  }
-
-  private function createBody(x:Int, y:Int, width:Int, height:Int):Void 
-  {
-    // Create shape
-    var bodyDef = new B2BodyDef();
-    bodyDef.position.set (x / Slide.worldScale, y / Slide.worldScale);
-    bodyDef.type = DYNAMIC_BODY;
-
-    var shape = new B2CircleShape(width / Slide.worldScale);
-    //shape.setAsBox(width / Slide.worldScale, height / Slide.worldScale);
-    var fixture = new B2FixtureDef();
-    fixture.shape = shape;
-    fixture.density = 4;
-    fixture.restitution = 0.2;
-    fixture.friction = 0;
-
-    var body = world.createBody (bodyDef);
-    body.createFixture (fixture);
   }
 
   public function onMouseClick(m:MouseEvent):Void
