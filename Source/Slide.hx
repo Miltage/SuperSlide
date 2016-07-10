@@ -321,6 +321,10 @@ class Slide extends Sprite {
       var currentPos = new Point(stage.mouseX, stage.mouseY);
       worldOffset.x += currentPos.x - lastPos.x;
       worldOffset.y += currentPos.y - lastPos.y;
+
+      if (worldOffset.x > 0)
+        worldOffset.x = 0;   
+
       lastPos = currentPos;
     }
     else if (mouseDown && mode == DRAW)
