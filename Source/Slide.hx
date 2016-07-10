@@ -236,6 +236,16 @@ class Slide extends Sprite {
     
   }
 
+  public function play():Void
+  {
+    running = true;
+  }
+
+  public function stop():Void
+  {
+    running = false;
+  }
+
   public function reset():Void
   {
     for (drop in water)

@@ -15,6 +15,8 @@ class Main extends Sprite {
   private var eraseButton:CircleButton;
   private var resetButton:CircleButton;
   private var deleteButton:CircleButton;
+  private var playButton:CircleButton;
+  private var pauseButton:CircleButton;
 
   public function new () {
 
@@ -40,6 +42,25 @@ class Main extends Sprite {
 
     var fps_mem:FPS_Mem = new FPS_Mem(10, 10, 0xffffff);
     ui.addChild(fps_mem);
+
+    pauseButton = new CircleButton("pause", function(){
+      slide.stop();
+      pauseButton.visible = false;
+      playButton.visible = true;
+    });
+    pauseButton.x = Lib.current.stage.stageWidth - 40 - 200;
+    pauseButton.y = Lib.current.stage.stageHeight - 40;
+    pauseButton.visible = false;
+    ui.addChild(pauseButton);
+
+    playButton = new CircleButton("play", function(){
+      slide.play();
+      pauseButton.visible = true;
+      playButton.visible = false;
+    });
+    playButton.x = Lib.current.stage.stageWidth - 40 - 200;
+    playButton.y = Lib.current.stage.stageHeight - 40;
+    ui.addChild(playButton);
 
     drawButton = new CircleButton("pencil", function(){
       slide.setMode(DRAW);
