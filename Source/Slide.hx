@@ -78,7 +78,9 @@ class Slide extends Sprite {
 
     world = new B2World(new B2Vec2 (0, 2), true);
     world.setContactListener(new ContactHandler());
-    //world.setDebugDraw(debug);
+    #if debug
+    world.setDebugDraw(debug);
+    #end
     worldOffset = new Point();
     pieces = new Array<Piece>();
     riders = new Array<Rider>();

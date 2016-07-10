@@ -40,8 +40,10 @@ class Main extends Sprite {
     ui = new Sprite();
     addChild(ui);
 
+    #if debug
     var fps_mem:FPS_Mem = new FPS_Mem(10, 10, 0xffffff);
     ui.addChild(fps_mem);
+    #end
 
     pauseButton = new CircleButton("pause", function(){
       slide.stop();
