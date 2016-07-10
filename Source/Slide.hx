@@ -3,6 +3,7 @@ package;
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.Lib;
+import openfl.display.StageDisplayState;
 import openfl.events.MouseEvent;
 import openfl.events.KeyboardEvent;
 import openfl.geom.Point;
@@ -40,6 +41,7 @@ class Slide extends Sprite {
   private var running:Bool;
   private var dragging:Bool;
   private var mouseDown:Bool;
+  private var fullscreen:Bool;
 
   private var lastPos:Point;
   private var worldOffset:Point;
@@ -56,6 +58,7 @@ class Slide extends Sprite {
     running = false;
     dragging = false;
     mouseDown = false;
+    fullscreen = false;
     count = 0;
     mode = DRAW;
 
@@ -221,7 +224,7 @@ class Slide extends Sprite {
     var r = Math.atan2(dy,dx) * 180 / Math.PI;
 
     var sprites:Array<Sprite> = new Array<Sprite>();
-    var slideHeight = 40;
+    var slideHeight = 30;
 
     if (lastPiece != null)
     {
@@ -417,12 +420,26 @@ class Slide extends Sprite {
         running = !running;
       case 'R'.code:
         reset();
+      case 'F'.code:
+        toggleFullscreen();
     }
   }
 
   public function setMode(mode:Mode):Void
   {
     this.mode = mode;
+  }
+
+  private function toggleFullscreen() {
+    if (!fullscreen)
+    {
+      Lib.current.stage.displayState = StageDisplayState.FULL_SCREEN;
+    } 
+    else
+    {
+      Lib.current.stage.displayState = StageDisplayState.NORMAL;
+    }
+    fullscreen = !fullscreen;
   }
   
 }
