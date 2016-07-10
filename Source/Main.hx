@@ -7,6 +7,8 @@ import openfl.Lib;
 import openfl.events.MouseEvent;
 import openfl.events.KeyboardEvent;
 
+import motion.Actuate;
+
 class Main extends Sprite {
 
   private var slide:Slide;
@@ -24,7 +26,9 @@ class Main extends Sprite {
     super ();
     stage.color = 0x7ad1e5;
 
-    title = new TitleScreen();
+    title = new TitleScreen(function(){
+    	start();
+    });
     addChild(title);
 
     stage.addEventListener(Event.ENTER_FRAME, update);
@@ -65,8 +69,19 @@ class Main extends Sprite {
 
   public function start()
   {
+  	Actuate.tween (title, 1, { alpha: 0 }).onComplete(function(){
+  		removeChild(title);
+  		init();
+  	});
+
+  }
+
+  public function init()
+  {
+
   	slide = new Slide();
     addChild(slide);
+    slide.alpha = 0;
 
     stage.addEventListener(MouseEvent.CLICK, slide.onMouseClick);
     stage.addEventListener(MouseEvent.MOUSE_DOWN, slide.onMouseDown);
@@ -124,6 +139,8 @@ class Main extends Sprite {
     ui.addChild(deleteButton);
 
     onResize(null);
+
+    Actuate.tween (slide, 1, { alpha: 1 });
   }
 
 
