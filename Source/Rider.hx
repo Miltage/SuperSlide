@@ -145,6 +145,7 @@ class Rider extends Sprite {
 
     body = world.createBody (bodyDef);
     body.createFixture (fixture);
+    body.setUserData(this);
 
     bodyDef = new B2BodyDef();
     bodyDef.position.set (x / Slide.worldScale, y / Slide.worldScale);
@@ -161,6 +162,7 @@ class Rider extends Sprite {
 
     body2 = world.createBody (bodyDef);
     body2.createFixture (fixture);
+    body2.setUserData(this);
 
     var jointDef = new B2DistanceJointDef();
     jointDef.initialize(body, body2, body.getWorldCenter(), body2.getWorldCenter());
