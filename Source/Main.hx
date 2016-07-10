@@ -50,8 +50,6 @@ class Main extends Sprite {
       pauseButton.visible = false;
       playButton.visible = true;
     });
-    pauseButton.x = Lib.current.stage.stageWidth - 40 - 200;
-    pauseButton.y = Lib.current.stage.stageHeight - 40;
     pauseButton.visible = false;
     ui.addChild(pauseButton);
 
@@ -60,37 +58,29 @@ class Main extends Sprite {
       pauseButton.visible = true;
       playButton.visible = false;
     });
-    playButton.x = Lib.current.stage.stageWidth - 40 - 200;
-    playButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(playButton);
 
     drawButton = new CircleButton("pencil", function(){
       slide.setMode(DRAW);
     });
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 150;
-    drawButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(drawButton);
 
     eraseButton = new CircleButton("eraser", function(){
       slide.setMode(ERASE);
     });
-    eraseButton.x = Lib.current.stage.stageWidth - 40 - 100;
-    eraseButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(eraseButton);
 
     resetButton = new CircleButton("refresh", function(){
       slide.reset();
     });
-    resetButton.x = Lib.current.stage.stageWidth - 40 - 50;
-    resetButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(resetButton);
 
     deleteButton = new CircleButton("garbage", function(){
       slide.eraseAll();
     });
-    deleteButton.x = Lib.current.stage.stageWidth - 40;
-    deleteButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(deleteButton);
+
+    onResize(null);
 
   }
 
@@ -101,10 +91,19 @@ class Main extends Sprite {
 
   public function onResize(e:Event):Void
   {
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
+  	// Position buttons
+  	pauseButton.x = Lib.current.stage.stageWidth - 40 - 200;
+  	pauseButton.y = Lib.current.stage.stageHeight - 40;
+  	playButton.x = Lib.current.stage.stageWidth - 40 - 200;
+  	playButton.y = Lib.current.stage.stageHeight - 40;
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 150;
     drawButton.y = Lib.current.stage.stageHeight - 40;
-    eraseButton.x = Lib.current.stage.stageWidth - 40;
+    eraseButton.x = Lib.current.stage.stageWidth - 40 - 100;
     eraseButton.y = Lib.current.stage.stageHeight - 40;
+    resetButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    resetButton.y = Lib.current.stage.stageHeight - 40;    
+    deleteButton.x = Lib.current.stage.stageWidth - 40;
+    deleteButton.y = Lib.current.stage.stageHeight - 40;
   }
 
 
