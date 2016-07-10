@@ -13,6 +13,7 @@ class Main extends Sprite {
   private var ui:Sprite;
   private var drawButton:CircleButton;
   private var eraseButton:CircleButton;
+  private var resetButton:CircleButton;
 
   public function new () {
 
@@ -42,16 +43,23 @@ class Main extends Sprite {
     drawButton = new CircleButton("pencil", function(){
       slide.setMode(DRAW);
     });
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 100;
     drawButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(drawButton);
 
     eraseButton = new CircleButton("eraser", function(){
       slide.setMode(ERASE);
     });
-    eraseButton.x = Lib.current.stage.stageWidth - 40;
+    eraseButton.x = Lib.current.stage.stageWidth - 40 - 50;
     eraseButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(eraseButton);
+
+    resetButton = new CircleButton("refresh", function(){
+      //slide.setMode(ERASE);
+    });
+    resetButton.x = Lib.current.stage.stageWidth - 40;
+    resetButton.y = Lib.current.stage.stageHeight - 40;
+    ui.addChild(resetButton);
 
   }
 
