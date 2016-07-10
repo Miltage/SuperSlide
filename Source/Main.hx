@@ -27,13 +27,17 @@ class Main extends Sprite {
     title = new TitleScreen();
     addChild(title);
 
+    stage.addEventListener(Event.ENTER_FRAME, update);
+    stage.addEventListener(Event.RESIZE, onResize);
+
     onResize(null);
 
   }
 
   public function update(e:Event):Void
   {
-    slide.update();
+    if (slide != null)
+    	slide.update();
   }
 
   public function onResize(e:Event):Void
@@ -63,9 +67,6 @@ class Main extends Sprite {
   {
   	slide = new Slide();
     addChild(slide);
-
-    stage.addEventListener(Event.ENTER_FRAME, update);
-    stage.addEventListener(Event.RESIZE, onResize);
 
     stage.addEventListener(MouseEvent.CLICK, slide.onMouseClick);
     stage.addEventListener(MouseEvent.MOUSE_DOWN, slide.onMouseDown);
