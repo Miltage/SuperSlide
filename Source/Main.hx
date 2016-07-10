@@ -72,11 +72,15 @@ class Main extends Sprite {
 
     resetButton = new CircleButton("refresh", function(){
       slide.reset();
+      pauseButton.visible = false;
+      playButton.visible = true;
     });
     ui.addChild(resetButton);
 
     deleteButton = new CircleButton("garbage", function(){
       slide.eraseAll();
+      pauseButton.visible = false;
+      playButton.visible = true;
     });
     ui.addChild(deleteButton);
 

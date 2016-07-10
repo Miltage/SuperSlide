@@ -19,6 +19,7 @@ class Rider extends Sprite {
   private var world:B2World;
   private var body:B2Body;
   private var body2:B2Body;
+  private var joint:B2Joint;
   private var index:Int;
 
   private var arm1:Sprite;
@@ -145,12 +146,19 @@ class Rider extends Sprite {
   {
     body.setPosition(new B2Vec2((start.x - 15) / Slide.worldScale, start.y / Slide.worldScale));
     body2.setPosition(new B2Vec2((start.x + 15) / Slide.worldScale, start.y / Slide.worldScale));
-    body.setLinearVelocity(new B2Vec2());
-    body2.setLinearVelocity(new B2Vec2());
+    body.setLinearVelocity(new B2Vec2(3, -1));
+    body2.setLinearVelocity(new B2Vec2(3, -1));
 
     vel = new Point();
 
     update();
+  }
+
+  public function destroy():Void
+  {
+    world.destroyBody(body);
+    world.destroyBody(body2);
+    world.destroyJoint(joint);
   }
 
   private function createBody(x:Float, y:Float):Void 
@@ -193,7 +201,7 @@ class Rider extends Sprite {
 
     var jointDef = new B2DistanceJointDef();
     jointDef.initialize(body, body2, body.getWorldCenter(), body2.getWorldCenter());
-    world.createJoint(jointDef);
+    joint = world.createJoint(jointDef);
 
     /*// Torso
     bodyDef.position.set (x / Slide.worldScale, (y + 30) / Slide.worldScale);

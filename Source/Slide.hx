@@ -26,6 +26,7 @@ class Slide extends Sprite {
 
   public static var worldScale:Float = 30;
   public static var intervals:Int = 15;
+  public static var maxRiders:Int = 10;
 
   private var world:B2World;
   private var dbgSprite:Sprite;
@@ -103,13 +104,6 @@ class Slide extends Sprite {
     riders = new Array<Rider>();
     water = new Array<WaterDrop>();
 
-    for (i in 0...5)
-    {
-      var r = new Rider(120+i*80, 100, world, i);
-      riderSprite.addChild(r);
-      riders.push(r);
-    }
-
     // Slide start edge
     var bodyDef = new B2BodyDef();
     bodyDef.type = STATIC_BODY;
@@ -148,11 +142,19 @@ class Slide extends Sprite {
       //waterSprite.addChild(w);
     }
 
+    if (count % 50 == 0 && running && riders.length < maxRiders)
+    {
+      var r = new Rider(-50, 150, world, count);
+      riderSprite.addChild(r);
+      riders.push(r);
+    }
+
     // Keep wall on screen
     if (worldOffset.y < -400)
       wallSprite.y = -worldOffset.y;
 
-    count++;
+    if (running)
+      count++;
   }
 
   private function redraw():Void
@@ -290,7 +292,12 @@ class Slide extends Sprite {
       drop.destroy(water, waterSprite);
 
     for (rider in riders)
-      rider.reset();
+    {
+      rider.destroy();
+      riderSprite.removeChild(rider);
+    }
+
+    riders = new Array<Rider>();
 
     if (waterSprite.numChildren > 0)
       waterSprite.removeChildren(0, waterSprite.numChildren-1);
