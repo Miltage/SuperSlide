@@ -30,6 +30,7 @@ class Slide extends Sprite {
   private var riderSprite:Sprite;
   private var slideSprite:Sprite;
   private var holderSprite:Sprite;
+  private var waterSprite:Sprite;
   private var lastPiece:Piece;
 
   private var running:Bool;
@@ -40,7 +41,9 @@ class Slide extends Sprite {
   private var worldOffset:Point;
   private var pieces:Array<Piece>;
   private var riders:Array<Rider>;
+  private var water:Array<WaterDrop>;
   private var mode:Mode;
+  private var count:Int;
 
   public function new() 
   {
@@ -49,7 +52,11 @@ class Slide extends Sprite {
     running = false;
     dragging = false;
     mouseDown = false;
+    count = 0;
     mode = DRAW;
+
+    waterSprite = new Sprite();
+    addChild(waterSprite);
 
     riderSprite = new Sprite();
     addChild(riderSprite);
@@ -75,6 +82,7 @@ class Slide extends Sprite {
     worldOffset = new Point();
     pieces = new Array<Piece>();
     riders = new Array<Rider>();
+    water = new Array<WaterDrop>();
 
     for (i in 0...5)
     {
@@ -97,6 +105,19 @@ class Slide extends Sprite {
     if (running)
       for (rider in riders)
         rider.update();
+
+    if (running)
+      for (drop in water)
+        drop.update(water);
+
+    if (count % 4 == 0 && running)
+    {
+      var w = new WaterDrop(100, 100, world);
+      water.push(w);
+      waterSprite.addChild(w);
+    }
+
+    count++;
   }
 
   private function redraw():Void
