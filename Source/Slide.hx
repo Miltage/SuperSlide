@@ -143,9 +143,9 @@ class Slide extends Sprite {
 
     if (count % 4 == 0 && running)
     {
-      var w = new WaterDrop(100, 220, world);
-      water.push(w);
-      waterSprite.addChild(w);
+      //var w = new WaterDrop(100, 220, world);
+      //water.push(w);
+      //waterSprite.addChild(w);
     }
 
     // Keep wall on screen
@@ -283,6 +283,9 @@ class Slide extends Sprite {
 
   public function reset():Void
   {
+    for (drop in water)
+      world.destroyBody(drop.getBody());
+
     for (drop in water)
       drop.destroy(water, waterSprite);
 

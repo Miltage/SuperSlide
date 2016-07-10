@@ -66,6 +66,9 @@ class WaterDrop extends Sprite {
     water.remove(this);
   }
 
-
+  public function getBody():B2Body
+  {
+    return body;
+  }
 
 }
