@@ -10,6 +10,7 @@ import openfl.events.KeyboardEvent;
 class Main extends Sprite {
 
   private var slide:Slide;
+  private var title:TitleScreen;
   private var ui:Sprite;
   private var drawButton:CircleButton;
   private var eraseButton:CircleButton;
@@ -23,7 +24,44 @@ class Main extends Sprite {
     super ();
     stage.color = 0x7ad1e5;
 
-    slide = new Slide();
+    title = new TitleScreen();
+    addChild(title);
+
+    onResize(null);
+
+  }
+
+  public function update(e:Event):Void
+  {
+    slide.update();
+  }
+
+  public function onResize(e:Event):Void
+  {
+
+  	if (title != null)
+  		title.onResize(e);
+
+  	if (pauseButton == null)
+  		return;
+  	// Position buttons
+  	pauseButton.x = Lib.current.stage.stageWidth - 40 - 200;
+  	pauseButton.y = Lib.current.stage.stageHeight - 40;
+  	playButton.x = Lib.current.stage.stageWidth - 40 - 200;
+  	playButton.y = Lib.current.stage.stageHeight - 40;
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 150;
+    drawButton.y = Lib.current.stage.stageHeight - 40;
+    eraseButton.x = Lib.current.stage.stageWidth - 40 - 100;
+    eraseButton.y = Lib.current.stage.stageHeight - 40;
+    resetButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    resetButton.y = Lib.current.stage.stageHeight - 40;    
+    deleteButton.x = Lib.current.stage.stageWidth - 40;
+    deleteButton.y = Lib.current.stage.stageHeight - 40;
+  }
+
+  public function start()
+  {
+  	slide = new Slide();
     addChild(slide);
 
     stage.addEventListener(Event.ENTER_FRAME, update);
@@ -85,29 +123,6 @@ class Main extends Sprite {
     ui.addChild(deleteButton);
 
     onResize(null);
-
-  }
-
-  public function update(e:Event):Void
-  {
-    slide.update();
-  }
-
-  public function onResize(e:Event):Void
-  {
-  	// Position buttons
-  	pauseButton.x = Lib.current.stage.stageWidth - 40 - 200;
-  	pauseButton.y = Lib.current.stage.stageHeight - 40;
-  	playButton.x = Lib.current.stage.stageWidth - 40 - 200;
-  	playButton.y = Lib.current.stage.stageHeight - 40;
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 150;
-    drawButton.y = Lib.current.stage.stageHeight - 40;
-    eraseButton.x = Lib.current.stage.stageWidth - 40 - 100;
-    eraseButton.y = Lib.current.stage.stageHeight - 40;
-    resetButton.x = Lib.current.stage.stageWidth - 40 - 50;
-    resetButton.y = Lib.current.stage.stageHeight - 40;    
-    deleteButton.x = Lib.current.stage.stageWidth - 40;
-    deleteButton.y = Lib.current.stage.stageHeight - 40;
   }
 
 
