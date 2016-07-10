@@ -5,6 +5,8 @@ import openfl.display.Bitmap;
 import openfl.Assets;
 import openfl.geom.Point;
 
+import motion.Actuate;
+
 import box2D.dynamics.*;
 import box2D.dynamics.joints.*;
 import box2D.dynamics.controllers.*;
@@ -124,6 +126,14 @@ class Rider extends Sprite {
     var dy = body2.getWorldCenter().y - body.getWorldCenter().y;
     var r = Math.atan2(dy,dx) * 180 / Math.PI;
     rotation = r;
+  }
+
+  public function takeDamage(amount:Float):Void
+  {
+    if (amount < 3) return;
+    Actuate.transform (this, 0.25).color (0x880000, amount/6).onComplete(function(){
+        Actuate.transform (this, 0.25).color (0xffffff, 0);
+    });
   }
 
   private function createBody(x:Float, y:Float):Void 

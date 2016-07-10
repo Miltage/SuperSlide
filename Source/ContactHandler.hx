@@ -23,9 +23,13 @@ class ContactHandler extends B2ContactListener {
   {
     var b0 = contact.getFixtureA().getBody().getUserData();
     var b1 = contact.getFixtureB().getBody().getUserData();
-    if (b0 != null && Std.is(b0, Rider) || b1 != null && Std.is(b1, Rider))
+    if (b0 != null && Std.is(b0, Rider))
     {
-      trace(impulse.normalImpulses[0]);
+      cast(b0, Rider).takeDamage(impulse.normalImpulses[0]);
+    }
+    else if(b1 != null && Std.is(b1, Rider))
+    {
+      cast(b1, Rider).takeDamage(impulse.normalImpulses[0]);
     }
   }
   

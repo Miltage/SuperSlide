@@ -8,6 +8,7 @@
 	
 	<haxelib name="openfl" />
 	<haxelib name="box2d" />
+	<haxelib name="actuate" />
 	
 	<assets path="Assets" rename="assets" />
 	
