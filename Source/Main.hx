@@ -14,6 +14,7 @@ class Main extends Sprite {
   private var drawButton:CircleButton;
   private var eraseButton:CircleButton;
   private var resetButton:CircleButton;
+  private var deleteButton:CircleButton;
 
   public function new () {
 
@@ -43,23 +44,30 @@ class Main extends Sprite {
     drawButton = new CircleButton("pencil", function(){
       slide.setMode(DRAW);
     });
-    drawButton.x = Lib.current.stage.stageWidth - 40 - 100;
+    drawButton.x = Lib.current.stage.stageWidth - 40 - 150;
     drawButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(drawButton);
 
     eraseButton = new CircleButton("eraser", function(){
       slide.setMode(ERASE);
     });
-    eraseButton.x = Lib.current.stage.stageWidth - 40 - 50;
+    eraseButton.x = Lib.current.stage.stageWidth - 40 - 100;
     eraseButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(eraseButton);
 
     resetButton = new CircleButton("refresh", function(){
       slide.reset();
     });
-    resetButton.x = Lib.current.stage.stageWidth - 40;
+    resetButton.x = Lib.current.stage.stageWidth - 40 - 50;
     resetButton.y = Lib.current.stage.stageHeight - 40;
     ui.addChild(resetButton);
+
+    deleteButton = new CircleButton("garbage", function(){
+      slide.reset();
+    });
+    deleteButton.x = Lib.current.stage.stageWidth - 40;
+    deleteButton.y = Lib.current.stage.stageHeight - 40;
+    ui.addChild(deleteButton);
 
   }
 
