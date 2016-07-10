@@ -60,7 +60,7 @@ class Slide extends Sprite {
 
     wallSprite = new Sprite();
     wallSprite.graphics.beginFill(0x96725b, 1);
-    wallSprite.graphics.drawRect(0, 0, 131, 1200);
+    wallSprite.graphics.drawRect(0, 0, 130, 1200);
     wallSprite.y = 400;
     addChild(wallSprite);
 
