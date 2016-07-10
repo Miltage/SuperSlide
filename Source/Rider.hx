@@ -29,6 +29,7 @@ class Rider extends Sprite {
   private var head:Sprite;
 
   private var vel:Point;
+  private var start:Point;
   
   public function new(x:Float, y:Float, world:B2World, index:Int)
   {
@@ -37,6 +38,8 @@ class Rider extends Sprite {
     this.y = y;
     this.world = world;
     this.index = index;
+
+    start = new Point(x, y);
 
     var e:Int = Std.int(Math.random()*2);
     var g:Int = Std.int(Math.random()*2);
@@ -134,6 +137,18 @@ class Rider extends Sprite {
     Actuate.transform (this, 0.25).color (0x880000, amount/6).onComplete(function(){
         Actuate.transform (this, 0.25).color (0xffffff, 0);
     });
+  }
+
+  public function reset():Void
+  {
+    body.setPosition(new B2Vec2((start.x - 15) / Slide.worldScale, start.y / Slide.worldScale));
+    body2.setPosition(new B2Vec2((start.x + 15) / Slide.worldScale, start.y / Slide.worldScale));
+    body.setLinearVelocity(new B2Vec2());
+    body2.setLinearVelocity(new B2Vec2());
+
+    vel = new Point();
+
+    update();
   }
 
   private function createBody(x:Float, y:Float):Void 

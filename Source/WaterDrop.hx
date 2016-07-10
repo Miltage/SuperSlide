@@ -47,16 +47,23 @@ class WaterDrop extends Sprite {
     body.createFixture (fixture);
   }
 
-  public function update(water:Array<WaterDrop>):Void
+  public function update(water:Array<WaterDrop>, waterSprite:Sprite):Void
   {
     this.x = body.getWorldCenter().x * Slide.worldScale;
     this.y = body.getWorldCenter().y * Slide.worldScale;
 
     if (this.y > 1000)
     {
-      world.destroyBody(body);
-      water.remove(this);
+      destroy(water, waterSprite);
     }
+  }
+
+  public function destroy(water:Array<WaterDrop>, waterSprite:Sprite):Void
+  {
+    world.destroyBody(body);
+    if (waterSprite.contains(this))
+      waterSprite.removeChild(this);
+    water.remove(this);
   }
 
 

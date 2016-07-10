@@ -55,7 +55,7 @@ class Main extends Sprite {
     ui.addChild(eraseButton);
 
     resetButton = new CircleButton("refresh", function(){
-      //slide.setMode(ERASE);
+      slide.reset();
     });
     resetButton.x = Lib.current.stage.stageWidth - 40;
     resetButton.y = Lib.current.stage.stageHeight - 40;

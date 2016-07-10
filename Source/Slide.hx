@@ -108,7 +108,7 @@ class Slide extends Sprite {
 
     if (running)
       for (drop in water)
-        drop.update(water);
+        drop.update(water, waterSprite);
 
     if (count % 4 == 0 && running)
     {
@@ -236,6 +236,18 @@ class Slide extends Sprite {
     
   }
 
+  public function reset():Void
+  {
+    for (drop in water)
+      drop.destroy(water, waterSprite);
+
+    for (rider in riders)
+      rider.reset();
+
+    waterSprite.removeChildren(0, waterSprite.numChildren-1);
+    running = false;
+  }
+
   public function onMouseClick(m:MouseEvent):Void
   {
 
@@ -329,6 +341,8 @@ class Slide extends Sprite {
         dragging = false;
       case 13: // ENTER
         running = !running;
+      case 'R'.code:
+        reset();
     }
   }
 
