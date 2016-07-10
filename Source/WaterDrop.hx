@@ -51,6 +51,12 @@ class WaterDrop extends Sprite {
   {
     this.x = body.getWorldCenter().x * Slide.worldScale;
     this.y = body.getWorldCenter().y * Slide.worldScale;
+
+    if (this.y > 1000)
+    {
+      world.destroyBody(body);
+      water.remove(this);
+    }
   }
 
 
