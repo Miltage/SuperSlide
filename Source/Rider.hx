@@ -112,7 +112,7 @@ class Rider extends Sprite {
   public function update():Void
   {
     this.x = (body.getWorldCenter().x + (body2.getWorldCenter().x - body.getWorldCenter().x)/2) * Slide.worldScale;
-    this.y = (body.getWorldCenter().y + (body2.getWorldCenter().y - body.getWorldCenter().y)/2) * Slide.worldScale;
+    this.y = (body.getWorldCenter().y + (body2.getWorldCenter().y - body.getWorldCenter().y)/2) * Slide.worldScale - 10;
 
     var bodyVel = body.getLinearVelocity();
     vel.y += (bodyVel.y - vel.y)/10;

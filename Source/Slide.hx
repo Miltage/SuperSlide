@@ -127,14 +127,14 @@ class Slide extends Sprite {
     // Draw track
     slideSprite.graphics.beginFill(0xe59751, 1);
     slideSprite.graphics.lineStyle(8, 0xda7a24, 1);
-    holderSprite.graphics.lineStyle(4, 0xda7a24, 1);
+    holderSprite.graphics.lineStyle(6, 0xda7a24, 1);
 
     var i = 0;
 
     for (p in pieces)
     {
-      slideSprite.graphics.moveTo(p.p0.x, p.p0.y);
-      slideSprite.graphics.lineTo(p.p1.x, p.p1.y);
+      //slideSprite.graphics.moveTo(p.p0.x, p.p0.y);
+      //slideSprite.graphics.lineTo(p.p1.x, p.p1.y);
       i++;
 
       if (p.lastPiece == null && p.nextPiece != null || p.lastPiece != null && p.nextPiece != null && i%4 == 0)
@@ -142,8 +142,8 @@ class Slide extends Sprite {
         var len = Point.distance(p.p0, p.p1);
         var dx = (p.p1.x - p.p0.x)/len;
         var dy = (p.p1.y - p.p0.y)/len;
-        holderSprite.graphics.moveTo(p.p1.x, p.p1.y);
-        holderSprite.graphics.lineTo(p.p1.x + dy*15, p.p1.y - dx*15);
+        holderSprite.graphics.moveTo(p.p1.x - dy*1, p.p1.y + dx*1);
+        holderSprite.graphics.lineTo(p.p1.x + dy*20, p.p1.y - dx*20);
       }
       else if (p.lastPiece != null && p.nextPiece == null)
       {
@@ -151,7 +151,7 @@ class Slide extends Sprite {
         var dx = (p.p1.x - p.p0.x)/len;
         var dy = (p.p1.y - p.p0.y)/len;
         holderSprite.graphics.moveTo(p.p0.x, p.p0.y);
-        holderSprite.graphics.lineTo(p.p0.x + dy*15, p.p0.y - dx*15);
+        holderSprite.graphics.lineTo(p.p0.x + dy*20, p.p0.y - dx*20);
         i = 0;
       }
     }
@@ -184,6 +184,7 @@ class Slide extends Sprite {
     var r = Math.atan2(dy,dx) * 180 / Math.PI;
 
     var sprites:Array<Sprite> = new Array<Sprite>();
+    var slideHeight = 35;
 
     if (lastPiece != null)
     {
@@ -201,7 +202,7 @@ class Slide extends Sprite {
         // Add slide piece
         var s = new Sprite();
         s.graphics.beginFill(0xe59751, 1);
-        s.graphics.drawRoundRect(0, -25, Point.distance(p0, p1)/2, 25, 5);
+        s.graphics.drawRoundRect(0, -slideHeight, Point.distance(p0, p1)/2, slideHeight, 5);
         s.x = sx + dx/intervals*(i+1);
         s.y = sy + dy/intervals*(i+1);
         s.rotation = sr + dr/intervals*(i+1);
@@ -213,7 +214,7 @@ class Slide extends Sprite {
     // Add final slide piece
     var s = new Sprite();
     s.graphics.beginFill(0xe59751, 1);
-    s.graphics.drawRoundRect(0, -25, Point.distance(p0, p1), 25, 5);
+    s.graphics.drawRoundRect(0, -slideHeight, Point.distance(p0, p1), slideHeight, 5);
     var dx = x1 - x0;
     var dy = y1 - y0;
     s.rotation = Math.atan2(dy,dx) * 180 / Math.PI;
@@ -278,7 +279,7 @@ class Slide extends Sprite {
         var dx = p.p1.x - p.p0.x;
         var dy = p.p1.y - p.p0.y;
         var midPoint = new Point(p.p0.x + dx/2, p.p0.y + dy/2);
-        //midPoint.subtract(worldOffset);
+
         if (Point.distance(currentPos, midPoint) < 25)
         {
           world.destroyBody(p.edge);
