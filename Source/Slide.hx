@@ -246,8 +246,21 @@ class Slide extends Sprite {
 
     if (waterSprite.numChildren > 0)
       waterSprite.removeChildren(0, waterSprite.numChildren-1);
-    
+
     running = false;
+  }
+
+  public function eraseAll():Void
+  {
+    if (slideSprite.numChildren > 0)
+      slideSprite.removeChildren(0, slideSprite.numChildren-1);
+
+    for (p in pieces)
+      world.destroyBody(p.edge);
+
+    pieces = new Array<Piece>();
+    redraw();
+    reset();
   }
 
   public function onMouseClick(m:MouseEvent):Void

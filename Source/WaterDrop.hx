@@ -24,7 +24,7 @@ class WaterDrop extends Sprite {
 
     createBody();
 
-    graphics.beginFill(0xc3e8f1, 1);
+    graphics.beginFill(0xd4f0f6, 1);
     graphics.drawCircle(0, 0, 2);
   }
 

@@ -110,6 +110,8 @@ class Rider extends Sprite {
       arm2.y = -arm2.height/2 + 36;
     }
     addChild(arm2);
+
+    reset();
   }
 
   public function update():Void

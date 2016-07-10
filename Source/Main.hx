@@ -63,7 +63,7 @@ class Main extends Sprite {
     ui.addChild(resetButton);
 
     deleteButton = new CircleButton("garbage", function(){
-      slide.reset();
+      slide.eraseAll();
     });
     deleteButton.x = Lib.current.stage.stageWidth - 40;
     deleteButton.y = Lib.current.stage.stageHeight - 40;
