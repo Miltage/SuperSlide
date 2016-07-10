@@ -1,11 +1,13 @@
 package;
 
 import openfl.display.Sprite;
+import openfl.display.Bitmap;
 import openfl.Lib;
 import openfl.events.MouseEvent;
 import openfl.events.KeyboardEvent;
 import openfl.geom.Point;
 import openfl.Vector;
+import openfl.Assets;
 
 import box2D.dynamics.*;
 import box2D.dynamics.controllers.*;
@@ -55,11 +57,19 @@ class Slide extends Sprite {
     count = 0;
     mode = DRAW;
 
+    var slideStartBack = new Sprite();
+    slideStartBack.addChild(new Bitmap(Assets.getBitmapData("assets/slide_start2.png")));
+    addChild(slideStartBack);
+
     waterSprite = new Sprite();
     addChild(waterSprite);
 
     riderSprite = new Sprite();
     addChild(riderSprite);
+
+    var slideStartFront = new Sprite();
+    slideStartFront.addChild(new Bitmap(Assets.getBitmapData("assets/slide_start.png")));
+    addChild(slideStartFront);
 
     slideSprite = new Sprite();
     addChild(slideSprite);
@@ -88,10 +98,22 @@ class Slide extends Sprite {
 
     for (i in 0...5)
     {
-      var r = new Rider(240+i*80, 100, world, i);
+      var r = new Rider(120+i*80, 100, world, i);
       riderSprite.addChild(r);
       riders.push(r);
     }
+
+    // Slide start edge
+    var bodyDef = new B2BodyDef();
+    bodyDef.type = STATIC_BODY;
+
+    var shape = new B2PolygonShape();
+    shape.setAsEdge(new B2Vec2(60 / Slide.worldScale, 230 / Slide.worldScale), new B2Vec2(240 / Slide.worldScale, 265 / Slide.worldScale));
+    var fixture = new B2FixtureDef();
+    fixture.shape = shape;
+
+    var edge = world.createBody(bodyDef);
+    edge.createFixture(fixture);
   }
 
   public function update():Void
@@ -114,7 +136,7 @@ class Slide extends Sprite {
 
     if (count % 4 == 0 && running)
     {
-      var w = new WaterDrop(100, 100, world);
+      var w = new WaterDrop(100, 220, world);
       water.push(w);
       waterSprite.addChild(w);
     }
