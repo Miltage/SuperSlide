@@ -244,7 +244,9 @@ class Slide extends Sprite {
     for (rider in riders)
       rider.reset();
 
-    waterSprite.removeChildren(0, waterSprite.numChildren-1);
+    if (waterSprite.numChildren > 0)
+      waterSprite.removeChildren(0, waterSprite.numChildren-1);
+    
     running = false;
   }
 
