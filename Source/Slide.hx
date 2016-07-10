@@ -33,6 +33,7 @@ class Slide extends Sprite {
   private var slideSprite:Sprite;
   private var holderSprite:Sprite;
   private var waterSprite:Sprite;
+  private var wallSprite:Sprite;
   private var lastPiece:Piece;
 
   private var running:Bool;
@@ -56,6 +57,12 @@ class Slide extends Sprite {
     mouseDown = false;
     count = 0;
     mode = DRAW;
+
+    wallSprite = new Sprite();
+    wallSprite.graphics.beginFill(0x96725b, 1);
+    wallSprite.graphics.drawRect(0, 0, 131, 1200);
+    wallSprite.y = 400;
+    addChild(wallSprite);
 
     var slideStartBack = new Sprite();
     slideStartBack.addChild(new Bitmap(Assets.getBitmapData("assets/slide_start2.png")));
@@ -140,6 +147,10 @@ class Slide extends Sprite {
       water.push(w);
       waterSprite.addChild(w);
     }
+
+    // Keep wall on screen
+    if (worldOffset.y < -400)
+      wallSprite.y = -worldOffset.y;
 
     count++;
   }
@@ -323,7 +334,7 @@ class Slide extends Sprite {
       worldOffset.y += currentPos.y - lastPos.y;
 
       if (worldOffset.x > 0)
-        worldOffset.x = 0;   
+        worldOffset.x = 0;
 
       lastPos = currentPos;
     }
