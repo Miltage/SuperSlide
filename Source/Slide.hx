@@ -29,6 +29,7 @@ class Slide extends Sprite {
   private var dbgSprite:Sprite;
   private var riderSprite:Sprite;
   private var slideSprite:Sprite;
+  private var holderSprite:Sprite;
   private var lastPiece:Piece;
 
   private var running:Bool;
@@ -55,6 +56,9 @@ class Slide extends Sprite {
 
     slideSprite = new Sprite();
     addChild(slideSprite);
+
+    holderSprite = new Sprite();
+    addChild(holderSprite);
 
     var debug = new B2DebugDraw();
     dbgSprite = new Sprite();
@@ -98,14 +102,37 @@ class Slide extends Sprite {
   private function redraw():Void
   {
     slideSprite.graphics.clear();
+    holderSprite.graphics.clear();
     // Draw track
     slideSprite.graphics.beginFill(0xe59751, 1);
     slideSprite.graphics.lineStyle(8, 0xda7a24, 1);
+    holderSprite.graphics.lineStyle(4, 0xda7a24, 1);
+
+    var i = 0;
 
     for (p in pieces)
     {
       slideSprite.graphics.moveTo(p.p0.x, p.p0.y);
       slideSprite.graphics.lineTo(p.p1.x, p.p1.y);
+      i++;
+
+      if (p.lastPiece == null && p.nextPiece != null || p.lastPiece != null && p.nextPiece != null && i%4 == 0)
+      {
+        var len = Point.distance(p.p0, p.p1);
+        var dx = (p.p1.x - p.p0.x)/len;
+        var dy = (p.p1.y - p.p0.y)/len;
+        holderSprite.graphics.moveTo(p.p1.x, p.p1.y);
+        holderSprite.graphics.lineTo(p.p1.x + dy*15, p.p1.y - dx*15);
+      }
+      else if (p.lastPiece != null && p.nextPiece == null)
+      {
+        var len = Point.distance(p.p0, p.p1);
+        var dx = (p.p1.x - p.p0.x)/len;
+        var dy = (p.p1.y - p.p0.y)/len;
+        holderSprite.graphics.moveTo(p.p0.x, p.p0.y);
+        holderSprite.graphics.lineTo(p.p0.x + dy*15, p.p0.y - dx*15);
+        i = 0;
+      }
     }
   }
 
