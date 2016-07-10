@@ -219,7 +219,7 @@ class Slide extends Sprite {
     var r = Math.atan2(dy,dx) * 180 / Math.PI;
 
     var sprites:Array<Sprite> = new Array<Sprite>();
-    var slideHeight = 35;
+    var slideHeight = 40;
 
     if (lastPiece != null)
     {
